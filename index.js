@@ -52,7 +52,6 @@ Use the higher-order function called getYears to do the following:
 function getYears(array, cb) {
     return cb(array).map(element => element.Year)
 }
-
 console.log(getYears(fifaData, getFinals))
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 4: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
@@ -63,9 +62,10 @@ Use the higher-order function getWinners to do the following:
 💡 HINT: Don't worry about ties for now (Please see the README file for info on ties for a stretch goal.)
 4. Returns the names of all winning countries in an array called `winners` */ 
 
-function getWinners(/* code here */) {
-    /* code here */
+function getWinners(array, cb) {
+    return cb(array).map(element => element['Home Team Goals'] > element["Away Team Goals"] ? element['Home Team Name'] : element ['Away Team Name']); 
 }
+console.log('Task 4', getWinners(fifaData, getFinals));
 
 
 
@@ -80,10 +80,12 @@ Use the higher-order function getWinnersByYear to do the following:
 💡 HINT: the strings returned need to exactly match the string in step 4.
  */
 
-function getWinnersByYear(/* code here */) {
-    /* code here */
+function getWinnersByYear(array, getFinalsCB, getYearsCB, getWinnersCB) {
+    const winners = getWinnersCB(array, getFinalsCB);
+    const years = getYearsCB(array, getFinalsCB);
+    return winners.map((element, index) => `In ${years[index]}, ${element} won the world cup!`)
 }
-
+console.log('Task 5', getWinnersByYear(fifaData, getFinals, getYears, getWinners));
 
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 6: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
@@ -100,9 +102,14 @@ Use the higher order function `getAverageGoals` to do the following:
  
 */
 
-function getAverageGoals(/* code here */) {
-    /* code here */
- }
+function getAverageGoals(array) {
+   const averageHomeGoals = array.reduce(function(acc, element){
+     return acc + element['Home Team Goals'] + element['Away Team Goals'];
+   },0)
+   return (averageHomeGoals / array.length).toFixed(2);
+ };
+
+ console.log('Task 6', getAverageGoals(fifaData));
 
 
 
